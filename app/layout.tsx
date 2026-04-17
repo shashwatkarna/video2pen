@@ -1,33 +1,17 @@
 import type { Metadata } from 'next'
-import { Geist, Geist_Mono, Caveat } from 'next/font/google'
+import { Inter } from 'next/font/google'
 import { Analytics } from '@vercel/analytics/next'
+import { Suspense } from 'react'
+import { StackProvider } from "@stackframe/stack";
+import { stack } from "../stack";
+import Loading from './loading';
 import './globals.css'
 
-const _geist = Geist({ subsets: ["latin"] });
-const _geistMono = Geist_Mono({ subsets: ["latin"] });
-const _caveat = Caveat({ subsets: ["latin"], variable: '--font-caveat' });
+const inter = Inter({ subsets: ['latin'] });
 
 export const metadata: Metadata = {
-  title: 'NotePad - YouTube to Handwritten Notes',
-  description: 'Convert YouTube videos to beautiful handwritten notes with AI summarization',
-  generator: 'v0.app',
-  icons: {
-    icon: [
-      {
-        url: '/icon-light-32x32.png',
-        media: '(prefers-color-scheme: light)',
-      },
-      {
-        url: '/icon-dark-32x32.png',
-        media: '(prefers-color-scheme: dark)',
-      },
-      {
-        url: '/icon.svg',
-        type: 'image/svg+xml',
-      },
-    ],
-    apple: '/apple-icon.png',
-  },
+  title: 'Video2Pen - YouTube to Handwritten Study Notes',
+  description: 'The ultimate tool to transform any YouTube video into beautiful, handwritten-style study guides in seconds. Powered by AI.',
 }
 
 export default function RootLayout({
@@ -36,9 +20,18 @@ export default function RootLayout({
   children: React.ReactNode
 }>) {
   return (
-    <html lang="en" className={_caveat.variable}>
-      <body className="font-sans antialiased bg-background">
-        {children}
+    <html lang="en">
+      <head>
+        <link rel="preconnect" href="https://fonts.googleapis.com" />
+        <link rel="preconnect" href="https://fonts.gstatic.com" crossOrigin="anonymous" />
+        <link href="https://fonts.googleapis.com/css2?family=Caveat:wght@400..700&family=Handlee&family=Indie+Flower&family=Gochi+Hand&display=swap" rel="stylesheet" />
+      </head>
+      <body className={`${inter.className} antialiased bg-background`}>
+        <StackProvider app={stack}>
+          <Suspense fallback={<Loading />}>
+            {children}
+          </Suspense>
+        </StackProvider>
         {process.env.NODE_ENV === 'production' && <Analytics />}
       </body>
     </html>
