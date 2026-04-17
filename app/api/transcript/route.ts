@@ -77,7 +77,9 @@ async function getTranscript(videoId: string): Promise<string> {
         throw new Error('Empty transcript returned');
     }
 
-    return { transcript, languageCode };
+    const videoTitle = data?.videoDetails?.title || 'Unknown Video';
+
+    return { transcript, languageCode, videoTitle };
   } catch (error) {
     console.error('Transcript Error:', error);
     const errMsg = error instanceof Error ? error.message : 'Unknown transcript error';
@@ -97,13 +99,14 @@ export async function POST(request: NextRequest) {
     }
 
     const videoId = getYouTubeVideoId(url);
-    const { transcript, languageCode } = await getTranscript(videoId);
+    const { transcript, languageCode, videoTitle } = await getTranscript(videoId);
 
     return NextResponse.json({
       success: true,
       transcript,
       languageCode,
       videoId,
+      videoTitle,
     });
   } catch (error) {
     const message = error instanceof Error ? error.message : 'Unknown error occurred';

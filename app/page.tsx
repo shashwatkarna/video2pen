@@ -364,7 +364,7 @@ export default function LandingPage() {
          {/* Bottom Bar */}
          <div className="max-w-7xl mx-auto mt-12 pt-12 border-t border-white/10 flex flex-col md:flex-row justify-between items-center gap-8">
             <p className="font-black uppercase text-[10px] opacity-40 italic tracking-widest">
-               Hand-built by Rebel Scholars © 2026 Video2Pen Labs
+               Hand-built by Rebel Scholars &copy; 2026 Video2Pen Labs
             </p>
             <div className="flex gap-4 items-center">
                <div className="h-1 w-24 bg-primary" />
