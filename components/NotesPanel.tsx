@@ -3,6 +3,7 @@
 import { useRef, useState } from 'react';
 
 interface Notes {
+  title: string;
   summary: string;
   keyPoints: string[];
   topics: string[];
@@ -19,8 +20,12 @@ type FontStyle = 'font-caveat' | 'font-handlee' | 'font-indie' | 'font-gochi';
 export default function NotesPanel({ notes }: NotePanelProps) {
   const notesRef = useRef<HTMLDivElement>(null);
   const [paperStyle, setPaperStyle] = useState<PaperStyle>('ruled');
-  const [activeFont, setActiveFont] = useState<FontStyle>('font-caveat');
+  const [activeFont, setActiveFont] = useState<FontStyle>('font-handlee');
   const [highlightColor, setHighlightColor] = useState('#fadb14');
+
+  const cleanText = (text: string) => {
+    return text.replace(/[#*`~_]/g, '').trim();
+  };
 
   const exportToPDF = async () => {
     if (!notesRef.current) return;
@@ -124,14 +129,13 @@ export default function NotesPanel({ notes }: NotePanelProps) {
         className={`brutalist-card bg-white overflow-hidden ${activeFont} border-black shadow-[8px_8px_0px_0px_rgba(0,0,0,1)]`}
       >
         <div className={`notebook-paper ${paperStyle === 'grid' ? 'grid-paper' : paperStyle === 'blank' ? 'blank-paper' : ''}`}>
-           {/* Section: Title */}
-           <div 
-             contentEditable 
-             suppressContentEditableWarning
-             className="text-5xl font-bold border-b-2 border-black/10 mb-10 pb-4 text-center italic tracking-tighter"
-           >
-             Video2Pen: {notes.topics[0]?.toUpperCase() || 'STUDY GUIDE'}
-           </div>
+            <div 
+              contentEditable 
+              suppressContentEditableWarning
+              className="text-5xl font-bold border-b-2 border-black/10 mb-10 pb-4 text-center italic tracking-tighter capitalize"
+            >
+              {notes.title.toLowerCase()}
+            </div>
 
            {/* Section: Summary */}
            <div className="space-y-6 mb-16">
@@ -143,7 +147,7 @@ export default function NotesPanel({ notes }: NotePanelProps) {
                suppressContentEditableWarning
                className="text-2xl leading-[1.6] outline-none tracking-tight"
              >
-               {notes.summary}
+               {cleanText(notes.summary)}
              </div>
            </div>
 
@@ -161,7 +165,7 @@ export default function NotesPanel({ notes }: NotePanelProps) {
                       suppressContentEditableWarning
                       className="text-2xl flex-1 outline-none leading-[1.5]"
                     >
-                      {point}
+                      {cleanText(point)}
                     </div>
                   </li>
                 ))}

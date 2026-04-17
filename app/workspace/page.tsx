@@ -8,6 +8,7 @@ import Link from 'next/link';
 const NotesPanel = dynamic(() => import('@/components/NotesPanel'), { ssr: false });
 
 interface Notes {
+  title: string;
   summary: string;
   keyPoints: string[];
   topics: string[];
@@ -41,15 +42,14 @@ export default function WorkspacePage() {
         throw new Error(errorData.error || 'Failed to extract transcript');
       }
 
-      const { transcript, languageCode } = await transcriptResponse.json();
+      const { transcript, languageCode, videoTitle } = await transcriptResponse.json();
 
       const summarizeResponse = await fetch('/api/summarize', {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
         body: JSON.stringify({ 
           transcript, 
-          language: 'English', 
-          sourceLangCode: languageCode,
+          videoTitle,
           mode: mode 
         }),
       });
@@ -59,9 +59,10 @@ export default function WorkspacePage() {
         throw new Error(errorData.error || 'Failed to generate notes');
       }
 
-      const { summary, keyPoints, topics } = await summarizeResponse.json();
+      const { summary, keyPoints, topics, title } = await summarizeResponse.json();
 
       setNotes({
+        title,
         summary,
         keyPoints: keyPoints.filter((p: string) => p.trim()),
         topics: topics.filter((t: string) => t.trim()),
