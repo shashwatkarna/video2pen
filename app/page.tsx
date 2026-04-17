@@ -67,8 +67,8 @@ export default function LandingPage() {
                </div>
             </Annotation>
 
-            <div className="inline-block brutalist-card bg-black text-white px-8 py-2 rotate-[-1deg] mb-6 relative">
-               <span className="font-black italic uppercase tracking-widest text-lg">Reintroducing Note-Taking</span>
+            <div className="inline-block brutalist-card bg-black text-white px-8 py-2 rotate-[-0.5deg] mb-6 relative">
+               <span className="font-black italic uppercase tracking-widest text-base">Introducing note-taking in smarter way</span>
                {/* MINI ANNOTATION */}
                <Annotation className="absolute -top-6 -left-12 text-lg" rotate="rotate-[-8deg]" color="text-secondary">
                   Finally! ➔
@@ -79,33 +79,40 @@ export default function LandingPage() {
                Video<span className="text-primary italic">2</span>Pen
             </h1>
 
-            <div className="relative">
-              <p className="text-2xl md:text-4xl font-bold max-w-3xl mx-auto border-l-[8px] border-black p-6 bg-white brutalist-card text-left">
-                 Turn "Watch Later" into <span className="text-secondary italic">"Know Forever."</span> Beautiful, handwritten AI notes from any video.
-              </p>
-              {/* STICKY NOTE ANNOTATION */}
-              <Annotation className="absolute -bottom-10 -right-4 md:-right-24 text-2xl hidden md:block" rotate="rotate-[3deg]" color="text-primary">
-                 <div className="bg-[#fdfd96] p-4 brutalist-card text-black font-caveat shadow-none text-base w-48 rotate-[-2deg]">
-                    "I used to spend 2 hours for a 1 hour lecture. Now it takes 10 mins." 
-                    <br/>- Alex, CS Student
-                 </div>
-              </Annotation>
+            <div className="relative pt-8">
+               <div className="bg-white border-[6px] border-black p-8 md:p-10 shadow-[12px_12px_0px_0px_rgba(0,0,0,1)] max-w-4xl mx-auto relative group">
+                  <p className="text-xl md:text-3xl font-black uppercase leading-[1.1] tracking-tighter">
+                     Turn <span className="bg-accent px-2">"Watch Later"</span> into<br/>
+                     <span className="text-primary italic underline decoration-[6px] decoration-secondary/30 underline-offset-8 font-black">"Know Forever."</span>
+                  </p>
+                  <p className="text-base md:text-lg font-bold opacity-60 mt-4 uppercase tracking-widest">
+                     Beautiful, digital notes with a human soul.
+                  </p>
+               </div>
+               {/* STICKY NOTE ANNOTATION */}
+               <Annotation className="absolute -bottom-16 -right-4 md:-right-16 text-2xl hidden lg:block z-20" rotate="rotate-[3deg]" color="text-primary">
+                  <div className="bg-[#fdfd96] p-6 brutalist-card text-black font-caveat shadow-none text-lg w-56 rotate-[-2deg]">
+                     "I used to spend 2 hours for a 1 hour lecture. Now it takes 10 mins." 
+                     <br/>
+                     <span className="font-bold text-xs uppercase tracking-widest opacity-50 block mt-2 text-right">- Alex, CS Student</span>
+                  </div>
+               </Annotation>
             </div>
 
             <div className="flex flex-col md:flex-row gap-6 justify-center items-center pt-8">
                {user ? (
-                  <Link href="/workspace" className="brutalist-button text-2xl px-16 py-6 w-full md:w-auto">
-                    Open My Workspace ➔
+                  <Link href="/workspace" className="brutalist-button text-xl px-12 py-5 w-full md:w-auto">
+                     Open My Workspace ➔
                   </Link>
                ) : (
                   <>
-                    <Link href="/login" className="brutalist-button text-2xl px-16 py-6 w-full md:w-auto relative group">
+                    <Link href="/login" className="brutalist-button text-xl px-12 py-5 w-full md:w-auto relative group">
                        Start Writing Free
                        <Annotation className="absolute -top-10 -right-10 text-xl opacity-0 group-hover:opacity-100 transition-opacity" rotate="rotate-[15deg]">
                           No CC Required!
                        </Annotation>
                     </Link>
-                    <Link href="/login" className="brutalist-button-secondary text-2xl px-12 py-6">
+                    <Link href="/login" className="brutalist-button-secondary text-xl px-10 py-5">
                        Sign In
                     </Link>
                   </>
@@ -364,7 +371,7 @@ export default function LandingPage() {
          {/* Bottom Bar */}
          <div className="max-w-7xl mx-auto mt-12 pt-12 border-t border-white/10 flex flex-col md:flex-row justify-between items-center gap-8">
             <p className="font-black uppercase text-[10px] opacity-40 italic tracking-widest">
-               Hand-built by Rebel Scholars &copy; 2026 Video2Pen Labs
+               My solution, now yours &copy; 2026 Video2Pen Labs
             </p>
             <div className="flex gap-4 items-center">
                <div className="h-1 w-24 bg-primary" />
