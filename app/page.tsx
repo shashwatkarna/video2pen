@@ -347,11 +347,22 @@ export default function LandingPage() {
                      <li className="hover:text-accent transition-colors cursor-pointer">Terms</li>
                   </ul>
                </div>
+
+               {/* Handwritten Open Source Notice - Inside the links block */}
+               <div className="col-span-full pt-12">
+                  <Annotation className="text-2xl leading-relaxed max-w-xl" rotate="rotate-[-1deg]" color="text-accent">
+                     This is an open source project, you are welcome to implement more good ideas. check 
+                     <a href="https://github.com/yourusername/Video2Pen" target="_blank" rel="noopener noreferrer" className="inline-block hover:scale-110 transition-transform mx-2 pointer-events-auto">
+                        <Github className="w-6 h-6 mb-1" />
+                     </a>
+                     for more info
+                  </Annotation>
+               </div>
             </div>
          </div>
 
          {/* Bottom Bar */}
-         <div className="max-w-7xl mx-auto mt-32 pt-12 border-t border-white/10 flex flex-col md:flex-row justify-between items-center gap-8">
+         <div className="max-w-7xl mx-auto mt-12 pt-12 border-t border-white/10 flex flex-col md:flex-row justify-between items-center gap-8">
             <p className="font-black uppercase text-[10px] opacity-40 italic tracking-widest">
                Hand-built by Rebel Scholars © 2026 Video2Pen Labs
             </p>
