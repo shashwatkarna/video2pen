@@ -305,13 +305,13 @@ export default function LandingPage() {
                      Digital notes with a human soul.
                   </p>
                   <div className="flex gap-4">
-                     <a href="#" className="w-12 h-12 brutalist-card bg-primary flex items-center justify-center text-white hover:-translate-y-1 transition-transform">
+                     <a href="https://github.com/shashwatkarna/Video2Pen" className="w-12 h-12 brutalist-card bg-primary flex items-center justify-center text-white hover:-translate-y-1 transition-transform">
                         <Github className="w-6 h-6" />
                      </a>
-                     <a href="#" className="w-12 h-12 brutalist-card bg-secondary flex items-center justify-center text-white hover:-translate-y-1 transition-transform">
+                     <a href="https://twitter.com/shashwat_karna" className="w-12 h-12 brutalist-card bg-secondary flex items-center justify-center text-white hover:-translate-y-1 transition-transform">
                         <Twitter className="w-6 h-6" />
                      </a>
-                     <a href="#" className="w-12 h-12 brutalist-card bg-accent flex items-center justify-center text-black hover:-translate-y-1 transition-transform">
+                     <a href="https://www.linkedin.com/in/shashwatkarna/" className="w-12 h-12 brutalist-card bg-accent flex items-center justify-center text-black hover:-translate-y-1 transition-transform">
                         <Linkedin className="w-6 h-6" />
                      </a>
                   </div>
@@ -359,7 +359,7 @@ export default function LandingPage() {
                   <div className="col-span-full pt-12">
                      <Annotation className="text-2xl leading-relaxed max-w-xl" rotate="rotate-[-1deg]" color="text-accent">
                         This is an open source project, you are welcome to implement more good ideas. check
-                        <a href="https://github.com/yourusername/Video2Pen" target="_blank" rel="noopener noreferrer" className="inline-block hover:scale-110 transition-transform mx-2 pointer-events-auto">
+                        <a href="https://github.com/shashwatkarna/Video2Pen" target="_blank" rel="noopener noreferrer" className="inline-block hover:scale-110 transition-transform mx-2 pointer-events-auto">
                            <Github className="w-6 h-6 mb-1" />
                         </a>
                         for more info

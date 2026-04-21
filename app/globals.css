@@ -141,6 +141,56 @@
   }
 }
 
+/* --- Stack Auth Neo-Brutalist Overrides --- */
+.stack-scope {
+  font-family: inherit !important;
+}
+
+/* Auth Cards */
+.stack-scope.flex.flex-col.items-stretch {
+  background-color: var(--card) !important;
+  border: 4px solid black !important;
+  border-radius: 0 !important;
+  box-shadow: 8px 8px 0px 0px rgba(0,0,0,1) !important;
+  padding: 2rem !important;
+}
+
+/* Buttons (GitHub, Google, Email) */
+.stack-scope.inline-flex.items-center.justify-center,
+.stack-oauth-button {
+  border: 3px solid black !important;
+  border-radius: 0 !important;
+  box-shadow: 4px 4px 0px 0px rgba(0,0,0,1) !important;
+  font-weight: 900 !important;
+  text-transform: uppercase !important;
+  letter-spacing: -0.02em !important;
+  transition: all 0.1s ease !important;
+}
+
+.stack-scope.inline-flex.items-center.justify-center:active,
+.stack-oauth-button:active {
+  box-shadow: none !important;
+  transform: translate(2px, 2px) !important;
+}
+
+/* Input Fields */
+.stack-scope.border-input {
+  border: 3px solid black !important;
+  border-radius: 0 !important;
+  background-color: white !important;
+  padding: 0.75rem 1rem !important;
+  height: auto !important;
+}
+
+/* Labels */
+.stack-scope label {
+  font-weight: 900 !important;
+  text-transform: uppercase !important;
+  font-size: 0.75rem !important;
+  letter-spacing: 0.05em !important;
+  margin-bottom: 0.5rem !important;
+}
+
 .notebook-paper::before {
   content: '';
   position: absolute;

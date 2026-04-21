@@ -30,7 +30,15 @@ export default function RootLayout({
       </head>
       <body className={`${inter.className} antialiased bg-background`} suppressHydrationWarning>
         <StackProvider app={stack}>
-          <StackTheme theme={{ radius: "0", light: { primary: "#1890ff" } }}>
+          <StackTheme theme={{ 
+            radius: "0px", 
+            light: { 
+              primary: "#1890ff",
+              background: "#fdfdf0",
+              card: "#ffffff",
+              border: "#000000",
+            } 
+          }}>
             <TooltipProvider>
               <Suspense fallback={<Loading />}>
                 {children}
