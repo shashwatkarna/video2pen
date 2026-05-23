@@ -37,6 +37,26 @@ export default function NotesPanel({ notes }: NotePanelProps) {
         backgroundColor: '#ffffff',
         scale: 2,
         useCORS: true,
+        onclone: (clonedDoc) => {
+          // Identify and replace any problematic modern colors (lab/oklch) 
+          // that Tailwind v4 might inject into the clone's DOM.
+          const style = clonedDoc.createElement('style');
+          style.innerHTML = `
+            :root {
+              --background: #ffffff !important;
+              --foreground: #000000 !important;
+              --primary: #1890ff !important;
+              --secondary: #52c41a !important;
+              --accent: #fadb14 !important;
+              --border: #000000 !important;
+            }
+            body, * {
+              border-color: #000000 !important;
+              color: inherit;
+            }
+          `;
+          clonedDoc.head.appendChild(style);
+        }
       });
 
       const imgData = canvas.toDataURL('image/png');
@@ -142,32 +162,30 @@ export default function NotesPanel({ notes }: NotePanelProps) {
              <h3 className="text-3xl font-bold text-primary flex items-center gap-2 italic">
                <span className="not-italic text-2xl">⚡</span> Summary
              </h3>
-             <div 
-               contentEditable 
-               suppressContentEditableWarning
-               className="text-2xl leading-[1.6] outline-none tracking-tight"
-             >
-               {cleanText(notes.summary)}
-             </div>
-           </div>
+              <div 
+                contentEditable 
+                suppressContentEditableWarning
+                className="text-2xl leading-[1.6] outline-none tracking-tight"
+                dangerouslySetInnerHTML={{ __html: notes.summary }}
+              />
+            </div>
 
-           {/* Section: Key Points */}
-           <div className="space-y-8">
-             <h3 className="text-3xl font-bold text-secondary flex items-center gap-2 italic">
-               <span className="not-italic text-2xl">✎</span> Core Insights
-             </h3>
-             <ul className="space-y-6">
-                {notes.keyPoints.map((point, idx) => (
-                  <li key={idx} className="flex gap-6 items-start">
-                    <span className="text-primary mt-1 text-2xl">✎</span>
-                    <div 
-                      contentEditable 
-                      suppressContentEditableWarning
-                      className="text-2xl flex-1 outline-none leading-[1.5]"
-                    >
-                      {cleanText(point)}
-                    </div>
-                  </li>
+            {/* Section: Key Points */}
+            <div className="space-y-8">
+              <h3 className="text-3xl font-bold text-secondary flex items-center gap-2 italic">
+                <span className="not-italic text-2xl">✎</span> Core Insights
+              </h3>
+              <ul className="space-y-6">
+                 {notes.keyPoints.map((point, idx) => (
+                   <li key={idx} className="flex gap-6 items-start">
+                     <span className="text-primary mt-1 text-2xl">✎</span>
+                     <div 
+                       contentEditable 
+                       suppressContentEditableWarning
+                       className="text-2xl flex-1 outline-none leading-[1.5]"
+                       dangerouslySetInnerHTML={{ __html: point }}
+                     />
+                   </li>
                 ))}
              </ul>
            </div>

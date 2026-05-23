@@ -98,7 +98,7 @@ export default function WorkspacePage() {
           <div className="flex items-center gap-4">
             <div className="text-right hidden md:block">
                <p className="font-black text-xs uppercase tracking-tighter">Academic Account</p>
-               <p className="text-[10px] font-bold opacity-50">{user.email}</p>
+               <p className="text-[10px] font-bold opacity-50">{user.primaryEmail}</p>
             </div>
             <button 
               onClick={() => user.signOut()} 
@@ -182,7 +182,45 @@ export default function WorkspacePage() {
 
           {/* Main Content Area */}
           <section className="lg:col-span-3">
-            {notes ? (
+            {error && error.includes('HUGGING_FACE_LIMIT') ? (
+              <div className="brutalist-card min-h-[600px] flex items-center justify-center bg-white p-8">
+                <div className="max-w-xl space-y-8">
+                  <div className="space-y-4">
+                    <h2 className="text-5xl font-black italic uppercase leading-none tracking-tighter">Inference Limit Reached</h2>
+                    <p className="text-sm font-bold opacity-60 uppercase tracking-widest">Global credits exhausted. Switch to your machine.</p>
+                  </div>
+
+                  <div className="grid grid-cols-1 md:grid-cols-3 gap-4">
+                    <div className="border-[3px] border-black p-4 bg-accent/10">
+                      <div className="text-3xl mb-2">1</div>
+                      <p className="text-[10px] font-black uppercase tracking-widest">Install Ollama from ollama.com</p>
+                    </div>
+                    <div className="border-[3px] border-black p-4 bg-primary/10">
+                      <div className="text-3xl mb-2">2</div>
+                      <p className="text-[10px] font-black uppercase tracking-widest">Run 'ollama run llama3.2'</p>
+                    </div>
+                    <div className="border-[3px] border-black p-4 bg-secondary/10">
+                      <div className="text-3xl mb-2">3</div>
+                      <p className="text-[10px] font-black uppercase tracking-widest">Set USE_LOCAL_AI=true in .env.local</p>
+                    </div>
+                  </div>
+
+                  <div className="bg-black text-white p-6 relative overflow-hidden">
+                    <p className="text-xs font-bold leading-relaxed">
+                      "I'VE DESIGNED VIDEO2PEN TO BE UNSTOPPABLE. BY SWITCHING TO LOCAL INFERENCE, YOU GET UNLIMITED NOTES, 10X FASTER SPEEDS, AND 100% PRIVACY."
+                    </p>
+                    <div className="absolute -right-4 -bottom-4 text-6xl opacity-20 italic font-black">V2P</div>
+                  </div>
+
+                  <button 
+                    onClick={() => setError('')}
+                    className="brutalist-button w-full py-4 text-xl tracking-tighter bg-white"
+                  >
+                    I'VE FIXED IT. LET'S GO.
+                  </button>
+                </div>
+              </div>
+            ) : notes ? (
               <NotesPanel notes={notes} />
             ) : (
               <div className="brutalist-card min-h-[600px] flex items-center justify-center bg-white border-dashed border-black/20">
