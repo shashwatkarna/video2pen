@@ -17,9 +17,17 @@ export default function LoginPage() {
       </Link>
 
       <div className="w-full max-w-[480px] space-y-10">
-        <div className="text-center space-y-3">
+        <div className="text-center space-y-3 relative">
+          {/* Absolutely positioned badge relative to the entire header block */}
+          <div className="absolute -top-4 -right-8 md:-right-16 font-indie text-accent rotate-[12deg] text-xl md:text-2xl pointer-events-none select-none z-10">
+            It's Free! ✨
+          </div>
+          
+          <div className="inline-block bg-black text-white px-4 py-1 mb-2 rotate-[-2deg]">
+            <span className="font-black italic uppercase tracking-widest text-[10px] md:text-xs">Next-Gen Academic Intelligence</span>
+          </div>
           <h1 className="text-6xl font-black tracking-tighter uppercase italic">
-            Video<span className="text-primary text-blue-600">2</span>Pen
+            Video<span className="text-primary">2</span>Pen
           </h1>
           <p className="font-bold opacity-70 uppercase text-xs tracking-[0.2em]">
             Welcome Back, Scholar.
