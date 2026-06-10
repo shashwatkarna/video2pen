@@ -1,5 +1,7 @@
 'use client';
 
+import { useState, useRef } from 'react';
+
 import Link from 'next/link';
 import { useUser } from "@stackframe/stack";
 import QRCode from "react-qr-code";
@@ -15,7 +17,8 @@ import {
    BookOpen,
    Github,
    Twitter,
-   Linkedin
+   Linkedin,
+   Pause
 } from 'lucide-react';
 
 /* --- Helper Component for Handwritten Annotations --- */
@@ -27,6 +30,19 @@ const Annotation = ({ children, className = "", rotate = "rotate-[-2deg]", color
 
 export default function LandingPage() {
    const user = useUser();
+   const [isPlaying, setIsPlaying] = useState(true);
+   const videoRef = useRef<HTMLVideoElement>(null);
+
+   const togglePlay = () => {
+      if (videoRef.current) {
+         if (isPlaying) {
+            videoRef.current.pause();
+         } else {
+            videoRef.current.play();
+         }
+         setIsPlaying(!isPlaying);
+      }
+   };
 
    const features = [
       {
@@ -156,13 +172,24 @@ export default function LandingPage() {
                   </div>
                </div>
                <div className="relative">
-                  <div className="brutalist-card aspect-video bg-black flex items-center justify-center overflow-hidden">
-                     <div className="text-white text-center space-y-4">
-                        <Play className="w-20 h-20 mx-auto fill-primary text-primary" />
-                        <p className="font-bold text-lg">Watch AI Notes Evolve in Real-Time</p>
+                  <div 
+                     className="brutalist-card aspect-video bg-black flex items-center justify-center overflow-hidden relative group cursor-pointer"
+                     onClick={togglePlay}
+                  >
+                     <video 
+                        ref={videoRef}
+                        className="w-full h-full object-cover absolute top-0 left-0 opacity-70 group-hover:opacity-90 transition-opacity"
+                        src="https://www.w3schools.com/html/mov_bbb.mp4" 
+                        autoPlay 
+                        loop 
+                        muted 
+                        playsInline 
+                     />
+                     <div className="absolute z-10 p-4 bg-primary text-white border-[3px] border-black rounded-full shadow-[4px_4px_0px_0px_rgba(0,0,0,1)] transition-transform group-hover:scale-110">
+                        {isPlaying ? <Pause className="w-8 h-8 fill-current" /> : <Play className="w-8 h-8 fill-current" />}
                      </div>
                   </div>
-                  <div className="absolute -bottom-8 -right-8 brutalist-card bg-secondary p-4 px-8 rotate-3 hidden md:block">
+                  <div className="absolute -bottom-8 -right-8 brutalist-card bg-secondary p-4 px-8 rotate-3 hidden md:block z-20">
                      <span className="text-white font-black italic">Speed: 10x Human 🚀</span>
                   </div>
                   <Annotation className="absolute -top-12 -left-4 text-2xl hidden md:block" rotate="rotate-[-10deg]">
@@ -323,10 +350,14 @@ export default function LandingPage() {
                   <div className="space-y-6">
                      <h5 className="font-black uppercase tracking-widest text-sm text-primary">Platform</h5>
                      <ul className="space-y-4 font-bold uppercase text-xs">
-                        <li className="hover:text-primary transition-colors cursor-pointer">Dashboard</li>
-                        <li className="hover:text-primary transition-colors cursor-pointer">API Docs</li>
+                        <li className="hover:text-primary transition-colors cursor-pointer">
+                           <Link href="/workspace">Dashboard</Link>
+                        </li>
+                        <li className="hover:text-primary transition-colors cursor-pointer">
+                           <Link href="/api-docs">API Docs</Link>
+                        </li>
                         <li className="hover:text-primary transition-colors cursor-pointer relative group">
-                           Pricing
+                           <Link href="/pricing">Pricing</Link>
                            <Annotation className="absolute -top-4 -right-12 text-[10px] opacity-0 group-hover:opacity-100 transition-opacity" rotate="rotate-[12deg]" color="text-accent">
                               It&apos;s Free!
                            </Annotation>
@@ -337,10 +368,14 @@ export default function LandingPage() {
                   <div className="space-y-6">
                      <h5 className="font-black uppercase tracking-widest text-sm text-secondary">Community</h5>
                      <ul className="space-y-4 font-bold uppercase text-xs">
-                        <li className="hover:text-secondary transition-colors cursor-pointer">Discord</li>
-                        <li className="hover:text-secondary transition-colors cursor-pointer">Twitter</li>
+                        <li className="hover:text-secondary transition-colors cursor-pointer group">
+                           <a href="https://discord.com" target="_blank" rel="noopener noreferrer">Discord <span className="text-[10px] opacity-50 ml-1 group-hover:opacity-100">(karn_shashwat)</span></a>
+                        </li>
+                        <li className="hover:text-secondary transition-colors cursor-pointer">
+                           <a href="https://twitter.com/shashwatkarna" target="_blank" rel="noopener noreferrer">Twitter</a>
+                        </li>
                         <li className="hover:text-secondary transition-colors cursor-pointer relative group">
-                           Manifesto
+                           <Link href="/terms">Manifesto</Link>
                            <Annotation className="absolute -top-4 -right-12 text-[10px] opacity-0 group-hover:opacity-100 transition-opacity" rotate="rotate-[-10deg]" color="text-primary">
                               Must Read ➔
                            </Annotation>
@@ -351,8 +386,12 @@ export default function LandingPage() {
                   <div className="space-y-6">
                      <h5 className="font-black uppercase tracking-widest text-sm text-accent">Legal</h5>
                      <ul className="space-y-4 font-bold uppercase text-xs">
-                        <li className="hover:text-accent transition-colors cursor-pointer">Privacy</li>
-                        <li className="hover:text-accent transition-colors cursor-pointer">Terms</li>
+                        <li className="hover:text-accent transition-colors cursor-pointer">
+                           <Link href="/terms">Privacy</Link>
+                        </li>
+                        <li className="hover:text-accent transition-colors cursor-pointer">
+                           <Link href="/terms">Terms</Link>
+                        </li>
                      </ul>
                   </div>
 
