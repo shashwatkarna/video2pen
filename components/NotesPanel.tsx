@@ -2,6 +2,7 @@
 
 import { useRef, useState, useEffect } from 'react';
 import { marked } from 'marked';
+import { usePostHog } from 'posthog-js/react';
 
 interface Notes {
   title: string;
@@ -23,6 +24,7 @@ export default function NotesPanel({ notes }: NotePanelProps) {
   const [activeFont, setActiveFont] = useState<FontStyle>('font-handlee');
   const [htmlContent, setHtmlContent] = useState('');
   const [highlightColor, setHighlightColor] = useState('#fadb14');
+  const posthog = usePostHog();
 
   useEffect(() => {
     const html = marked.parse(notes.markdownContent) as string;
@@ -32,6 +34,7 @@ export default function NotesPanel({ notes }: NotePanelProps) {
   const exportToPDF = async () => {
     if (!notesRef.current) return;
     try {
+      posthog.capture('exported_notes_to_pdf', { title: notes.title });
       const html2canvas = (await import('html2canvas')).default;
       const jsPDF = (await import('jspdf')).default;
 
@@ -85,6 +88,7 @@ export default function NotesPanel({ notes }: NotePanelProps) {
   };
 
   const applyCommand = (command: string, value?: string) => {
+    posthog.capture('formatted_notes', { command, value });
     document.execCommand(command, false, value);
   };
 

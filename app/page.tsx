@@ -354,6 +354,9 @@ export default function LandingPage() {
                            <Link href="/workspace">Dashboard</Link>
                         </li>
                         <li className="hover:text-primary transition-colors cursor-pointer">
+                           <Link href="/use-cases">Use Cases</Link>
+                        </li>
+                        <li className="hover:text-primary transition-colors cursor-pointer">
                            <Link href="/api-docs">API Docs</Link>
                         </li>
                         <li className="hover:text-primary transition-colors cursor-pointer relative group">

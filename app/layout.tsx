@@ -4,6 +4,7 @@ import { Analytics } from '@vercel/analytics/next'
 import { Suspense } from 'react'
 import { StackProvider, StackTheme } from "@stackframe/stack";
 import { stack } from "../stack";
+import { CSPostHogProvider } from './providers/PostHogProvider';
 import Loading from './loading';
 import './globals.css'
 
@@ -14,6 +15,28 @@ const inter = Inter({ subsets: ['latin'] });
 export const metadata: Metadata = {
   title: 'Video2Pen - YouTube to Handwritten Study Notes',
   description: 'The ultimate tool to transform any YouTube video into beautiful, handwritten-style study guides in seconds. Powered by AI.',
+  openGraph: {
+    title: 'Video2Pen - YouTube to Handwritten Study Notes',
+    description: 'The ultimate tool to transform any YouTube video into beautiful, handwritten-style study guides in seconds. Powered by AI.',
+    url: 'https://video2pen.vercel.app',
+    siteName: 'Video2Pen',
+    images: [
+      {
+        url: 'https://video2pen.vercel.app/og-image.png',
+        width: 1200,
+        height: 630,
+        alt: 'Video2Pen OpenGraph Banner',
+      },
+    ],
+    locale: 'en_US',
+    type: 'website',
+  },
+  twitter: {
+    card: 'summary_large_image',
+    title: 'Video2Pen - YouTube to Handwritten Study Notes',
+    description: 'Transform any YouTube video into beautiful, handwritten-style study guides in seconds.',
+    images: ['https://video2pen.vercel.app/og-image.png'],
+  },
 }
 
 export default function RootLayout({
@@ -40,9 +63,11 @@ export default function RootLayout({
             } 
           }}>
             <TooltipProvider>
-              <Suspense fallback={<Loading />}>
-                {children}
-              </Suspense>
+              <CSPostHogProvider>
+                <Suspense fallback={<Loading />}>
+                  {children}
+                </Suspense>
+              </CSPostHogProvider>
             </TooltipProvider>
           </StackTheme>
         </StackProvider>
