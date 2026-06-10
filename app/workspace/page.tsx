@@ -6,6 +6,7 @@ import { useUser } from "@stackframe/stack";
 import Link from 'next/link';
 
 const NotesPanel = dynamic(() => import('@/components/NotesPanel'), { ssr: false });
+const ChatWidget = dynamic(() => import('@/components/ChatWidget'), { ssr: false });
 
 interface Notes {
   title: string;
@@ -189,7 +190,10 @@ export default function WorkspacePage() {
           {/* Main Content Area */}
           <section className="lg:col-span-3">
             {notes ? (
-              <NotesPanel notes={notes} />
+              <>
+                <NotesPanel notes={notes} />
+                <ChatWidget transcript={notes.transcript} videoTitle={notes.title} />
+              </>
             ) : (
               <div className="brutalist-card min-h-[600px] flex items-center justify-center bg-white border-dashed border-black/20">
                 <div className="text-center space-y-6 max-w-sm">

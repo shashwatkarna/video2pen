@@ -114,11 +114,15 @@ Output ONLY beautifully formatted Markdown. Do not use HTML tags. Use markdown t
 - (Question)
 
 ## 1-Minute Revision Sheet
+
 **KEYWORDS:**
-- (Word 1), (Word 2), (Word 3)
+- (Word 1)
+- (Word 2)
+- (Word 3)
 
 **FORMULAS:**
-- (List)
+- (List formula 1)
+- (List formula 2)
 
 **TOP INSIGHT:**
 (The single most important thing to remember before the exam)`;
