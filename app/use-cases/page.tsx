@@ -4,6 +4,9 @@ import { BookOpen, Code, GraduationCap, Laptop, Sparkles } from 'lucide-react';
 export const metadata = {
   title: 'Video2Pen Use Cases - YouTube to Notes for Students & Professionals',
   description: 'Discover how students, developers, and researchers use Video2Pen to transform long YouTube lectures into concise, handwritten study guides instantly.',
+  alternates: {
+    canonical: 'https://video2pen.vercel.app/use-cases',
+  },
 };
 
 const useCases = [
