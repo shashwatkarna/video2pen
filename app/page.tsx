@@ -2,6 +2,7 @@
 
 import Link from 'next/link';
 import { useUser } from "@stackframe/stack";
+import QRCode from "react-qr-code";
 import {
    Play,
    PenTool,
@@ -355,8 +356,8 @@ export default function LandingPage() {
                      </ul>
                   </div>
 
-                  {/* Handwritten Open Source Notice - Inside the links block */}
-                  <div className="col-span-full pt-12">
+                  {/* Handwritten Open Source Notice & Support */}
+                  <div className="col-span-full pt-12 space-y-8">
                      <Annotation className="text-2xl leading-relaxed max-w-xl" rotate="rotate-[-1deg]" color="text-accent">
                         This is an open source project, you are welcome to implement more good ideas. check
                         <a href="https://github.com/shashwatkarna/Video2Pen" target="_blank" rel="noopener noreferrer" className="inline-block hover:scale-110 transition-transform mx-2 pointer-events-auto">
@@ -364,6 +365,26 @@ export default function LandingPage() {
                         </a>
                         for more info
                      </Annotation>
+                     
+                     <div className="relative group/qr max-w-sm inline-block">
+                        <div className="flex items-center gap-4 border-[3px] border-white p-4 brutalist-card bg-black hover:-translate-y-1 transition-transform pointer-events-auto">
+                           <span className="text-4xl group-hover/qr:animate-bounce">☕</span>
+                           <div>
+                              <p className="font-black uppercase text-sm text-primary tracking-widest">Support the Creator</p>
+                              <p className="font-bold text-xs mt-1 opacity-80">UPI: <span className="text-accent select-all font-black text-sm ml-1">9971374395@apl</span></p>
+                           </div>
+                        </div>
+                        
+                        {/* Hover QR Code */}
+                        <div className="absolute bottom-full left-0 mb-4 opacity-0 group-hover/qr:opacity-100 transition-all pointer-events-none z-50 translate-y-2 group-hover/qr:translate-y-0">
+                           <div className="bg-white p-4 brutalist-card border-[3px] border-black text-center shadow-[8px_8px_0px_0px_rgba(0,0,0,1)]">
+                              <div className="bg-white p-2 border-2 border-black/10 rounded-lg inline-block">
+                                 <QRCode value="upi://pay?pa=9971374395@apl&pn=Video2Pen Creator" size={160} />
+                              </div>
+                              <p className="text-black font-black uppercase tracking-tighter text-xs mt-3">Scan with any UPI App</p>
+                           </div>
+                        </div>
+                     </div>
                   </div>
                </div>
             </div>
