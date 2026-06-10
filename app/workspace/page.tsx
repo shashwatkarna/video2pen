@@ -9,8 +9,7 @@ const NotesPanel = dynamic(() => import('@/components/NotesPanel'), { ssr: false
 
 interface Notes {
   title: string;
-  summary: string;
-  keyPoints: string[];
+  markdownContent: string;
   topics: string[];
   transcript: string;
   languageCode: string;
@@ -31,6 +30,10 @@ export default function WorkspacePage() {
     setLoading(true);
 
     try {
+      if (!youtubeUrl) {
+        throw new Error('Please enter a YouTube URL');
+      }
+
       const transcriptResponse = await fetch('/api/transcript', {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
@@ -39,7 +42,11 @@ export default function WorkspacePage() {
 
       if (!transcriptResponse.ok) {
         const errorData = await transcriptResponse.json();
-        throw new Error(errorData.error || 'Failed to extract transcript');
+        const apiError = errorData.error || 'Failed to extract transcript';
+        if (apiError.toLowerCase().includes('transcript') || apiError.toLowerCase().includes('disabled') || apiError.toLowerCase().includes('cc') || apiError.toLowerCase().includes('could not find')) {
+           throw new Error('We cannot extract notes for this video due to YouTube policy (no available transcript). Please try another video.');
+        }
+        throw new Error(apiError);
       }
 
       const { transcript, languageCode, videoTitle } = await transcriptResponse.json();
@@ -59,12 +66,11 @@ export default function WorkspacePage() {
         throw new Error(errorData.error || 'Failed to generate notes');
       }
 
-      const { summary, keyPoints, topics, title } = await summarizeResponse.json();
+      const { markdownContent, topics, title } = await summarizeResponse.json();
 
       setNotes({
         title,
-        summary,
-        keyPoints: keyPoints.filter((p: string) => p.trim()),
+        markdownContent,
         topics: topics.filter((t: string) => t.trim()),
         transcript,
         languageCode,
@@ -154,14 +160,14 @@ export default function WorkspacePage() {
               <button
                 onClick={handleExtractAndSummarize}
                 disabled={!youtubeUrl || loading}
-                className={`w-full brutalist-button-accent py-5 text-xl tracking-tighter ${loading ? 'opacity-50 cursor-not-allowed' : ''}`}
+                className={`w-full brutalist-button-accent py-5 text-xl tracking-tighter ${(!youtubeUrl || loading) ? 'opacity-50 cursor-not-allowed' : ''}`}
               >
-                {loading ? 'DIGESTING VIDEO...' : 'GENERATE NOTES'}
+                {loading ? 'DIGESTING CONTENT...' : 'GENERATE NOTES'}
               </button>
 
               {error && (
-                <div className="p-4 bg-red-100 border-[3px] border-black rounded-xl text-xs font-black text-red-600 uppercase italic">
-                   ⚠️ {error}
+                <div className="p-4 bg-red-100 border-[3px] border-black rounded-xl text-xs font-black text-red-600 uppercase italic space-y-2">
+                   <div>⚠️ {error}</div>
                 </div>
               )}
             </div>
@@ -182,45 +188,7 @@ export default function WorkspacePage() {
 
           {/* Main Content Area */}
           <section className="lg:col-span-3">
-            {error && error.includes('HUGGING_FACE_LIMIT') ? (
-              <div className="brutalist-card min-h-[600px] flex items-center justify-center bg-white p-8">
-                <div className="max-w-xl space-y-8">
-                  <div className="space-y-4">
-                    <h2 className="text-5xl font-black italic uppercase leading-none tracking-tighter">Inference Limit Reached</h2>
-                    <p className="text-sm font-bold opacity-60 uppercase tracking-widest">Global credits exhausted. Switch to your machine.</p>
-                  </div>
-
-                  <div className="grid grid-cols-1 md:grid-cols-3 gap-4">
-                    <div className="border-[3px] border-black p-4 bg-accent/10">
-                      <div className="text-3xl mb-2">1</div>
-                      <p className="text-[10px] font-black uppercase tracking-widest">Install Ollama from ollama.com</p>
-                    </div>
-                    <div className="border-[3px] border-black p-4 bg-primary/10">
-                      <div className="text-3xl mb-2">2</div>
-                      <p className="text-[10px] font-black uppercase tracking-widest">Run 'ollama run llama3.2'</p>
-                    </div>
-                    <div className="border-[3px] border-black p-4 bg-secondary/10">
-                      <div className="text-3xl mb-2">3</div>
-                      <p className="text-[10px] font-black uppercase tracking-widest">Set USE_LOCAL_AI=true in .env.local</p>
-                    </div>
-                  </div>
-
-                  <div className="bg-black text-white p-6 relative overflow-hidden">
-                    <p className="text-xs font-bold leading-relaxed">
-                      "I'VE DESIGNED VIDEO2PEN TO BE UNSTOPPABLE. BY SWITCHING TO LOCAL INFERENCE, YOU GET UNLIMITED NOTES, 10X FASTER SPEEDS, AND 100% PRIVACY."
-                    </p>
-                    <div className="absolute -right-4 -bottom-4 text-6xl opacity-20 italic font-black">V2P</div>
-                  </div>
-
-                  <button 
-                    onClick={() => setError('')}
-                    className="brutalist-button w-full py-4 text-xl tracking-tighter bg-white"
-                  >
-                    I'VE FIXED IT. LET'S GO.
-                  </button>
-                </div>
-              </div>
-            ) : notes ? (
+            {notes ? (
               <NotesPanel notes={notes} />
             ) : (
               <div className="brutalist-card min-h-[600px] flex items-center justify-center bg-white border-dashed border-black/20">

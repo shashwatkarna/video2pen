@@ -1,114 +1,181 @@
 import { NextRequest, NextResponse } from 'next/server';
-import { HfInference } from '@huggingface/inference';
+import Groq from 'groq-sdk';
+import { CohereClient } from 'cohere-ai';
+import OpenAI from 'openai';
 
 export const maxDuration = 300; // 5 minutes max duration
 
-async function generateAIResponse(text: string, videoTitle: string, systemPrompt: string): Promise<any> {
-  const useLocal = process.env.USE_LOCAL_AI === 'true';
-  const model = useLocal ? (process.env.LOCAL_AI_MODEL || 'llama3.2') : 'Qwen/Qwen2.5-72B-Instruct';
+const quickPrompt = `You are Video2Pen, a master note-taker. Your goal is to parse the transcript and produce a fast, 30-second read.
+Output ONLY beautifully formatted Markdown. Do not use HTML tags. You MUST use the exact markdown headers (including the ## symbols).
 
-  let content = "";
+# Output Structure
 
-  if (useLocal) {
-    console.log(`[Video2Pen] Starting Local Inference with ${model}...`);
-    try {
-      const response = await fetch('http://127.0.0.1:11434/api/chat', {
-        method: 'POST',
-        headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify({
-          model: model,
-          messages: [
-            { role: "system", content: systemPrompt },
-            // Reduced to 15,000 for maximum stability on non-GPU hardware
-            { role: "user", content: `Video Title: ${videoTitle}\n\nTranscript: ${text.substring(0, 15000)}` }
-          ],
-          stream: false,
-        }),
-      });
+## TL;DR
+(One or two sentences summarizing the core message)
 
-      if (!response.ok) {
-        throw new Error(`Ollama Error: ${response.statusText}. Ensure Ollama is running and '${model}' is downloaded.`);
-      }
+## Key Takeaways
+- (Point 1)
+- (Point 2)
+- ...
 
-      const data = await response.json();
-      content = data.message?.content || "";
-      console.log(`[Video2Pen] Local Inference Complete.`);
-    } catch (err: any) {
-      console.error(`[Video2Pen] Local Inference Failed:`, err);
-      throw new Error(`Local AI failed: ${err.message}. Ensure Ollama is running at 127.0.0.1:11434`);
-    }
-  } else {
-    // ... rest of the logic remains same for HF ...
-    const apiKey = process.env.HUGGING_FACE_API_KEY;
-    if (!apiKey) throw new Error('HUGGING_FACE_API_KEY is not configured');
-    const hf = new HfInference(apiKey);
+## Action Items
+- Do (X)
+- Avoid (Y)
+- Try (Z)
 
-    try {
-      const hfResponse = await hf.chatCompletion({
-        model: model,
-        messages: [
-          { role: "system", content: systemPrompt },
-          { role: "user", content: `Video Title: ${videoTitle}\n\nTranscript: ${text.substring(0, 40000)}` }
-        ],
-        max_tokens: 4000,
-        temperature: 0.5,
-      });
-      content = hfResponse.choices[0].message.content || "";
-    } catch (error: any) {
-      console.error("Video2Pen Engine Error:", error);
-      if (error.message.includes("depleted") || error.message.includes("402")) {
-        throw new Error("HUGGING_FACE_LIMIT: You have depleted your monthly included credits. Switch to Local AI in .env.local or upgrade your plan.");
-      }
-      throw new Error(`Video2Pen generation failed: ${error.message}`);
-    }
+## Important Numbers & Facts
+- (Statistics, metrics, dates, or core facts)
+
+## Quote of the Video
+> (The most impactful statement or quote)`;
+
+const detailedPrompt = `You are Video2Pen, a master note-taker. Your goal is to parse the transcript and produce a deep, 5-minute read for learning and reference.
+Output ONLY beautifully formatted Markdown. Do not use HTML tags. Use markdown tables where requested. You MUST use the exact markdown headers (including the ## and ### symbols).
+
+# Output Structure
+
+## Video Overview
+(What the video is about in detail)
+
+## Main Concepts
+### (Concept 1 Name)
+(Detailed Explanation)
+### (Concept 2 Name)
+(Detailed Explanation)
+
+## Key Definitions
+| Term | Definition |
+|------|------------|
+| (Term 1) | (Definition 1) |
+
+## Frameworks Mentioned
+(List and explain any step-by-step frameworks. If none, say "No specific frameworks mentioned.")
+
+## Examples & Case Studies
+(Real-world examples discussed)
+
+## Tools & Resources
+- (Tool A)
+- (Website B)
+
+## Important Insights
+(Key lessons and takeaways)
+
+## Common Mistakes
+(Things to avoid or pitfalls mentioned)
+
+## Action Plan
+(Step-by-step implementation guide)
+
+## Chronological Flow
+(A chronological breakdown of the video's flow)`;
+
+const examPrompt = `You are Video2Pen, a master note-taker and academic tutor. Your goal is to parse the transcript and produce study notes tailored for students and competitive exams.
+Output ONLY beautifully formatted Markdown. Do not use HTML tags. Use markdown tables where requested. You MUST use the exact markdown headers (including the ## and ### symbols).
+
+# Output Structure
+
+## Chapter Summary
+(Short overview of the academic/technical content)
+
+## Key Concepts
+### (Concept 1)
+(Definition and deep explanation)
+### (Concept 2)
+(Definition and deep explanation)
+
+## Important Definitions
+- **(Definition 1)**: (Explanation)
+- **(Definition 2)**: (Explanation)
+
+## Formulae / Equations
+(If present, write them out clearly, e.g., ROI = Profit / Investment. If none, write "No mathematical formulas discussed.")
+
+## Facts to Remember
+- (Fact 1)
+- (Fact 2)
+
+## Mnemonics
+(Generate creative memory tricks or acronyms automatically)
+
+## Flashcards
+**Q:** (Question 1)
+**A:** (Answer 1)
+
+**Q:** (Question 2)
+**A:** (Answer 2)
+
+## Potential Exam Questions
+### Easy
+- (Question)
+### Medium
+- (Question)
+### Hard
+- (Question)
+
+## 1-Minute Revision Sheet
+**KEYWORDS:**
+- (Word 1), (Word 2), (Word 3)
+
+**FORMULAS:**
+- (List)
+
+**TOP INSIGHT:**
+(The single most important thing to remember before the exam)`;
+
+
+async function generateAIResponse(text: string, videoTitle: string, mode: string): Promise<any> {
+  const groqKey = process.env.GROQ_API_KEY;
+
+  if (!groqKey) {
+    throw new Error('GROQ_API_KEY is missing in .env.local.');
   }
 
-  // Robust HTML splitting
-  let summary = "Summary not generated.";
-  let keyPoints: string[] = [];
+  const groq = new Groq({ apiKey: groqKey });
+  let content = "";
+  let systemPrompt = "";
 
-  if (content.includes('|||SPLIT|||')) {
-    const parts = content.split('|||SPLIT|||');
-    summary = parts[0].trim();
-    const kpSection = parts[1] || "";
-    
-    if (kpSection.includes('|||ITEM|||')) {
-      keyPoints = kpSection.split('|||ITEM|||').map(s => s.trim()).filter(s => s.length > 5);
-    } else {
-      keyPoints = [kpSection.trim()];
-    }
+  console.log(`[Video2Pen] Executing mode: ${mode}`);
+
+  if (mode === 'Quick') {
+    systemPrompt = quickPrompt;
+  } else if (mode === 'Detailed') {
+    systemPrompt = detailedPrompt;
+  } else if (mode === 'Exam') {
+    systemPrompt = examPrompt;
   } else {
-    summary = content.trim();
-    keyPoints = ["Detailed analytical points were merged into the summary above."];
+    throw new Error('Invalid mode selected');
+  }
+
+  try {
+    const response = await groq.chat.completions.create({
+      messages: [
+        { role: 'system', content: systemPrompt },
+        { role: 'user', content: `Video Title: ${videoTitle}\n\nTranscript: ${text.substring(0, 20000)}` },
+      ],
+      model: 'llama-3.3-70b-versatile',
+      temperature: 0.3,
+    });
+    content = response.choices[0]?.message?.content || "";
+  } catch (err: any) {
+    throw new Error(`Groq generation failed: ${err.message}`);
   }
 
   return {
     title: videoTitle,
-    summary,
-    keyPoints,
+    markdownContent: content.trim()
   };
 }
 
-const systemPrompt = `You are Video2Pen, a master note-taker and academic tutor. 
-Your goal is to parse the video transcript and produce incredibly deep, highly-structured, human-like handwritten notes.
-- Use basic HTML tags to format your output (<b> for bolding key terms, <br> for spacing, <ul><li> for nested lists, <i> for emphasis).
-- Do not use markdown like ** or ##.
-- Highlight important topics dynamically.
-
-You MUST format your ONLY output exactly as two sections divided by "|||SPLIT|||".
-Section 1 (Summary): A cohesive, multi-paragraph conceptual overview.
-|||SPLIT|||
-Section 2 (Key Points): A list of extremely detailed bullet points, separated by "|||ITEM|||". Each item should be a deep dive into specific concepts, formulas, or themes discussed in the video.`;
-
 export async function POST(request: NextRequest) {
   try {
-    const { transcript, videoTitle } = await request.json();
+    const { transcript, videoTitle, mode } = await request.json();
 
     if (!transcript) {
       return NextResponse.json({ error: 'Transcript is required' }, { status: 400 });
     }
 
-    const aiResult = await generateAIResponse(transcript, videoTitle || "Study Notes", systemPrompt);
+    const aiResult = await generateAIResponse(transcript, videoTitle || "Study Notes", mode || "Detailed");
     
     // Auto-generate high-impact topics from transcript
     const stopwords = new Set(['the','and','to','of','in','a','is','that','for','it','on','with','as','you','this','be','are','from','at','or','an','was','can','we','what','by','not','if','they','but','your','about','which','their','has','will','how','when','there','more','all','out','up','so','one','do','summary','concepts','questions','cheat','sheet','academic','video2pen']);
@@ -128,8 +195,7 @@ export async function POST(request: NextRequest) {
     return NextResponse.json({
       success: true,
       title: aiResult.title,
-      summary: aiResult.summary,
-      keyPoints: aiResult.keyPoints,
+      markdownContent: aiResult.markdownContent,
       topics: topics.length > 0 ? topics : ["General Study"],
     });
   } catch (error) {
