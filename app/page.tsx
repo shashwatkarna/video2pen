@@ -84,23 +84,23 @@ export default function LandingPage() {
                   </div>
                </Annotation>
 
-               <div className="inline-block brutalist-card bg-black text-white px-8 py-2 rotate-[-0.5deg] mb-6 relative">
-                  <span className="font-black italic uppercase tracking-widest text-lg">Next-Gen Academic Intelligence</span>
+               <div className="inline-block brutalist-card bg-black text-white px-4 md:px-8 py-2 rotate-[-0.5deg] mb-6 relative">
+                  <span className="font-black italic uppercase tracking-widest text-sm md:text-lg">Next-Gen Academic Intelligence</span>
                   {/* MINI ANNOTATION */}
-                  <Annotation className="absolute -top-6 -left-12 text-lg" rotate="rotate-[-8deg]" color="text-secondary">
+                  <Annotation className="absolute -top-6 -left-8 md:-left-12 text-sm md:text-lg" rotate="rotate-[-8deg]" color="text-secondary">
                      Finally! ➔
                   </Annotation>
                </div>
 
-               <h1 className="text-8xl md:text-[11rem] font-black tracking-tighter leading-[0.85] uppercase">
+               <h1 className="text-5xl sm:text-7xl md:text-9xl lg:text-[11rem] font-black tracking-tighter leading-[0.85] uppercase">
                   Video<span className="text-primary italic">2</span>Pen
                </h1>
 
                <div className="relative pt-8">
                   <div className="bg-white border-[6px] border-black p-8 md:p-12 shadow-[16px_16px_0px_0px_rgba(0,0,0,1)] max-w-4xl mx-auto relative group">
-                     <p className="text-2xl md:text-4xl font-black uppercase leading-[1.1] tracking-tighter">
-                        Turn <span className="bg-accent px-2">"Watch Later"</span> into<br />
-                        <span className="text-primary italic underline decoration-[6px] decoration-secondary/30 underline-offset-8 font-black">"Know Forever."</span>
+                     <p className="text-xl sm:text-2xl md:text-4xl font-black uppercase leading-[1.1] tracking-tighter">
+                        Turn <span className="bg-accent px-2">"Watch Later"</span> into<br className="hidden sm:block" />
+                        <span className="text-primary italic underline decoration-[4px] md:decoration-[6px] decoration-secondary/30 underline-offset-4 md:underline-offset-8 font-black">"Know Forever."</span>
                      </p>
                      <p className="text-lg md:text-xl font-bold opacity-60 mt-6 uppercase tracking-widest">
                         Beautiful, digital notes with a human soul.
@@ -123,13 +123,13 @@ export default function LandingPage() {
                      </Link>
                   ) : (
                      <>
-                        <Link href="/login" className="brutalist-button text-2xl px-16 py-6 w-full md:w-auto relative group">
+                        <Link href="/login" className="brutalist-button text-lg md:text-2xl px-8 md:px-16 py-4 md:py-6 w-full md:w-auto relative group">
                            Start Writing Free
-                           <Annotation className="absolute -top-10 -right-10 text-xl opacity-0 group-hover:opacity-100 transition-opacity" rotate="rotate-[15deg]">
+                           <Annotation className="absolute -top-10 -right-4 md:-right-10 text-lg md:text-xl opacity-0 group-hover:opacity-100 transition-opacity" rotate="rotate-[15deg]">
                               No CC Required!
                            </Annotation>
                         </Link>
-                        <Link href="/login" className="brutalist-button-secondary text-2xl px-12 py-6">
+                        <Link href="/login" className="brutalist-button-secondary text-lg md:text-2xl px-8 md:px-12 py-4 md:py-6 w-full md:w-auto">
                            Sign In
                         </Link>
                      </>
@@ -179,13 +179,13 @@ export default function LandingPage() {
                      <video 
                         ref={videoRef}
                         className="w-full h-full object-cover absolute top-0 left-0 opacity-70 group-hover:opacity-90 transition-opacity"
-                        src="https://www.w3schools.com/html/mov_bbb.mp4" 
+                        src="/demo.mp4" 
                         autoPlay 
                         loop 
                         muted 
                         playsInline 
                      />
-                     <div className="absolute z-10 p-4 bg-primary text-white border-[3px] border-black rounded-full shadow-[4px_4px_0px_0px_rgba(0,0,0,1)] transition-transform group-hover:scale-110">
+                     <div className={`absolute z-10 p-4 bg-primary text-white border-[3px] border-black rounded-full shadow-[4px_4px_0px_0px_rgba(0,0,0,1)] transition-all duration-300 group-hover:scale-110 ${isPlaying ? 'opacity-0 group-hover:opacity-100' : 'opacity-100'}`}>
                         {isPlaying ? <Pause className="w-8 h-8 fill-current" /> : <Play className="w-8 h-8 fill-current" />}
                      </div>
                   </div>
@@ -272,27 +272,27 @@ export default function LandingPage() {
                   Write Less.<br /><span className="underline decoration-white decoration-[10px]">Learn More.</span>
                </h2>
 
-               <div className="flex flex-col md:flex-row justify-center gap-8 pt-8 relative">
-                  <Link href="/login" className="brutalist-button bg-white text-black text-3xl px-20 py-8 hover:bg-accent transition-colors">
+               <div className="flex flex-col md:flex-row justify-center items-center gap-8 pt-8 relative">
+                  <Link href="/login" className="brutalist-button bg-white text-black text-xl md:text-3xl px-12 md:px-20 py-6 md:py-8 hover:bg-accent transition-colors w-full md:w-auto">
                      Join 10k+ Learners
                   </Link>
                   {/* JOIN ANNOTATION */}
-                  <Annotation className="absolute -bottom-16 md:-right-24 md:bottom-auto md:top-10 text-4xl text-white" rotate="rotate-[-12deg]">
+                  <Annotation className="absolute -bottom-12 right-0 md:-right-24 md:bottom-auto md:top-10 text-2xl md:text-4xl text-white" rotate="rotate-[-12deg]">
                      Don&apos;t miss out! ➔
                   </Annotation>
                </div>
 
-               <div className="grid grid-cols-3 gap-8 pt-24 text-sm md:text-lg font-black uppercase">
+               <div className="grid grid-cols-1 md:grid-cols-3 gap-8 pt-16 md:pt-24 text-sm md:text-lg font-black uppercase">
                   <div className="flex flex-col gap-2">
-                     <span className="text-3xl md:text-5xl italic">1M+</span>
+                     <span className="text-5xl md:text-5xl italic">1M+</span>
                      <span className="opacity-70">Notes Generated</span>
                   </div>
                   <div className="flex flex-col gap-2">
-                     <span className="text-3xl md:text-5xl italic">98%</span>
+                     <span className="text-5xl md:text-5xl italic">98%</span>
                      <span className="opacity-70">Focus Score</span>
                   </div>
                   <div className="flex flex-col gap-2">
-                     <span className="text-3xl md:text-5xl italic">0$</span>
+                     <span className="text-5xl md:text-5xl italic">0$</span>
                      <span className="opacity-70">Monthly Fee</span>
                   </div>
                </div>
