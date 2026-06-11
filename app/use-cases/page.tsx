@@ -14,19 +14,19 @@ const useCases = [
     icon: <GraduationCap className="w-8 h-8" />,
     title: 'University Students',
     description: 'Turn 2-hour organic chemistry or history lectures into scannable, beautifully formatted study guides. Never pause a video to take notes again.',
-    keywords: ['Study Guides', 'Lecture Notes', 'Exam Prep']
+    keywords: ['Exam preparation', 'Study from YouTube', 'Active recall']
   },
   {
     icon: <Code className="w-8 h-8" />,
     title: 'Software Developers',
     description: 'Extract code snippets and architectural concepts from tech talks, coding tutorials, and conference keynotes instantly.',
-    keywords: ['Tech Talks', 'Coding Tutorials', 'Documentation']
+    keywords: ['Tech Talks', 'Video annotation', 'Extract insights']
   },
   {
     icon: <BookOpen className="w-8 h-8" />,
     title: 'Researchers & Writers',
     description: 'Summarize long-form podcast interviews, documentaries, and video essays into structured outlines for your next paper or article.',
-    keywords: ['Podcasts', 'Research', 'Outlining']
+    keywords: ['Research documentation', 'Content repurposing', 'Timestamped notes']
   }
 ];
 

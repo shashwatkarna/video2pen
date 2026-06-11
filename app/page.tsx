@@ -265,6 +265,55 @@ export default function LandingPage() {
             </div>
          </section>
 
+         {/* 4.5 FAQ SECTION (SEO HACK) */}
+         <section className="py-24 px-4 bg-white border-y-[10px] border-black">
+            <div className="max-w-4xl mx-auto">
+               <div className="text-center mb-16 space-y-6">
+                  <h2 className="text-4xl md:text-6xl font-black uppercase">
+                     How it <span className="text-primary italic underline decoration-8 underline-offset-8">works</span>
+                  </h2>
+                  <p className="text-sm md:text-base font-bold opacity-70 uppercase tracking-widest max-w-2xl mx-auto leading-relaxed">
+                     The ultimate AI Learning Assistant to extract insights and take timestamped notes. Turn long videos into automated summaries.
+                  </p>
+               </div>
+               
+               <div className="space-y-6">
+                  {/* FAQ 1 */}
+                  <details className="brutalist-card bg-[#fdfdf0] group [&_summary::-webkit-details-marker]:hidden cursor-pointer p-6">
+                     <summary className="text-2xl font-black uppercase flex justify-between items-center">
+                        How to take notes on YouTube videos?
+                        <span className="text-primary group-open:rotate-180 transition-transform">▼</span>
+                     </summary>
+                     <p className="mt-4 text-lg font-bold opacity-80 leading-relaxed border-t-4 border-black pt-4">
+                        Taking notes manually is obsolete. Video2Pen acts as your AI learning assistant. Simply paste any YouTube URL, and our engine automatically performs a video-to-text conversion, extracting the core insights into beautiful, timestamped notes that you can export instantly.
+                     </p>
+                  </details>
+
+                  {/* FAQ 2 */}
+                  <details className="brutalist-card bg-[#fdfdf0] group [&_summary::-webkit-details-marker]:hidden cursor-pointer p-6">
+                     <summary className="text-2xl font-black uppercase flex justify-between items-center">
+                        Can I summarize long YouTube videos with AI?
+                        <span className="text-primary group-open:rotate-180 transition-transform">▼</span>
+                     </summary>
+                     <p className="mt-4 text-lg font-bold opacity-80 leading-relaxed border-t-4 border-black pt-4">
+                        Yes! Whether it's a 10-minute tutorial or a 3-hour university lecture, our YouTube transcript generator processes the entire audio track and creates automated video summaries structured with active recall questions, key definitions, and deep analysis.
+                     </p>
+                  </details>
+
+                  {/* FAQ 3 */}
+                  <details className="brutalist-card bg-[#fdfdf0] group [&_summary::-webkit-details-marker]:hidden cursor-pointer p-6">
+                     <summary className="text-2xl font-black uppercase flex justify-between items-center">
+                        Is this better than a standard transcript generator?
+                        <span className="text-primary group-open:rotate-180 transition-transform">▼</span>
+                     </summary>
+                     <p className="mt-4 text-lg font-bold opacity-80 leading-relaxed border-t-4 border-black pt-4">
+                        Absolutely. Raw YouTube transcript generators just dump walls of text. We use advanced LLMs to process that text into structured study artifacts, ensuring you get high-fidelity research documentation and exam preparation material rather than just a messy script.
+                     </p>
+                  </details>
+               </div>
+            </div>
+         </section>
+
          {/* 5. THE FINAL CALL */}
          <section className="py-32 px-4 bg-primary text-white text-center border-t-[10px] border-black relative overflow-hidden">
             <div className="max-w-4xl mx-auto space-y-12 relative z-10">

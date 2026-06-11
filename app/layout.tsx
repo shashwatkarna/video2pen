@@ -17,25 +17,17 @@ export const viewport: Viewport = {
   themeColor: '#fdfdf0',
   width: 'device-width',
   initialScale: 1,
-  maximumScale: 1,
 }
 
 export const metadata: Metadata = {
   title: 'Video2Pen - YouTube to Handwritten Study Notes',
-  description: 'The ultimate tool to transform any YouTube video into beautiful, handwritten-style study guides in seconds. Powered by AI.',
+  description: 'The ultimate AI learning assistant to summarize long YouTube videos, extract insights, and generate beautiful handwritten study guides instantly.',
+  keywords: ['youtube transcript generator', 'youtube to notes', 'yt to notes', 'ai study guide', 'video to text', 'summarize youtube videos with ai', 'automated video summaries', 'timestamped notes', 'ai learning assistant', 'extract insights from video', 'youtube to pdf'],
   openGraph: {
     title: 'Video2Pen - YouTube to Handwritten Study Notes',
-    description: 'The ultimate tool to transform any YouTube video into beautiful, handwritten-style study guides in seconds. Powered by AI.',
+    description: 'The ultimate AI learning assistant to summarize long YouTube videos, extract insights, and generate beautiful handwritten study guides instantly.',
     url: 'https://video2pen.vercel.app',
     siteName: 'Video2Pen',
-    images: [
-      {
-        url: 'https://video2pen.vercel.app/og-image.png',
-        width: 1200,
-        height: 630,
-        alt: 'Video2Pen OpenGraph Banner',
-      },
-    ],
     locale: 'en_US',
     type: 'website',
   },
@@ -43,7 +35,6 @@ export const metadata: Metadata = {
     card: 'summary_large_image',
     title: 'Video2Pen - YouTube to Handwritten Study Notes',
     description: 'Transform any YouTube video into beautiful, handwritten-style study guides in seconds.',
-    images: ['https://video2pen.vercel.app/og-image.png'],
   },
   appleWebApp: {
     capable: true,
@@ -52,6 +43,9 @@ export const metadata: Metadata = {
   },
   alternates: {
     canonical: 'https://video2pen.vercel.app',
+  },
+  other: {
+    'og:logo': 'https://video2pen.vercel.app/icon-512x512.png',
   },
 }
 
