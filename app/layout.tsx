@@ -44,6 +44,9 @@ export const metadata: Metadata = {
   alternates: {
     canonical: 'https://video2pen.vercel.app',
   },
+  verification: {
+    google: 'lEKd39QapkV0CqMIQBz9Ijnqw4tSdB7QmQ3E3-CIToA',
+  },
   other: {
     'og:logo': 'https://video2pen.vercel.app/icon-512x512.png',
   },
